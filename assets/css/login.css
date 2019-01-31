@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400');
+            html,body {
+                padding: 0;
+                margin: 0;
+                font-family: 'Roboto', sans-serif;
+                min-height: 300px;
+                overflow: hidden;
+            }
+            h3 {
+                margin-bottom: 30px;
+            }
+            ::-webkit-scrollbar { 
+                display: none; 
+            }
+            * {
+                line-height: 30px;
+            }
+            hr {
+                border-top-color: #404040;
+                margin: 0;
+            }
+            img { max-width: 100%; }
+            #container{
+                background-color: #282828;
+            }
+            #header {
+                position: fixed;
+                top:0;
+                width: 100%;
+                padding: 5px 0px;
+                background: #282828;
+                color: white;
+                box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
+            }
+            .innerHeader {
+                width:60%;
+                margin: 0 auto;
+                min-width: 960px;
+            }
+            #body {
+                width: 30%;
+                margin: 0 auto;
+                height: 100vh;
+                min-height: 700px;
+                min-width: 500px;
+                padding: 100px 50px 50px 50px;
+                background-color: #282828;
+            }
+            .leftNavBar {
+                width: 30%;
+                float:left;
+                height: 100%;
+                background:#383838;
+            }
+            .rightTasks {
+                width:70%;
+                float: left;
+                height: 100%;
+                background: #1f1f1f;
+                color: white;
+                overflow-y: scroll;
+            }
+            .tasksEditor {
+                padding: 6px 25px 12px 30px;
+            }
+            .smallDate {
+                color: #808080 !important;
+                margin-left: 6px;
+                font-size: 11px;
+            }
+            .plus {
+                border-radius: 50%;
+                color:#de4c4a;
+                text-align: center;
+                width: 25px;
+                font-size: 22px;
+                margin-right: 15px;
+                display: inline-block;
+            }
+            .addTask {
+                display: inline-block;
+                line-height: 26px;
+                vertical-align: top;
+            }
+            .clear {
+                clear: both;
+            }
+            .todayA{
+                text-decoration: none;
+            }
+            .todayA:hover {
+                text-decoration: underline;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            li {
+                padding: 10px 0px;
+                color: #808080;
+            }
+            li:hover {
+                color: #de4c4a;
+            }
+            .whiteColor {
+                color: rgba(255,255,255,0.87);
+            }
+            .bigText {
+                font-size: 20px;
+            }
+            a {
+                text-decoration: none;
+            }
+            a:hover {
+                color: white;
+            }
+            .hoverPlus {
+                color: #282828;
+                background: #de4c4a;
+                text-align: center;
+                width: 25px;
+                font-size: 22px;
+                margin-right: 15px;
+                display: inline-block;
+                border-radius: 50%;
+            }
+            .plussvg {
+                background-image: url(../images/plus.png);
+                background-repeat: no-repeat;
+                background-position: left;
+                padding-left: 40px;
+                background-size: 30px;
+            }
+            .plussvg:hover{
+                background-image: url(../images/hoverplus.png);
+                background-repeat: no-repeat;
+                background-position: left;
+                padding-left: 40px;
+                background-size: 30px;
+            }
+            .logoText {
+                display: inline-block;
+                line-height: 38px;
+                vertical-align: super;
+            }
+            .logoText {
+                cursor: pointer;
+            }
+            .emptyList {
+                width: 300px;
+                margin: 0 auto;
+                text-align: center;
+                color: white;
+            }
+            .greyText {
+                color: #808080;
+            }
+            .smallText {
+                font-size: 12px;
+            }
+            .logo {
+                vertical-align: baseline;
+            }
+            .logo {
+                vertical-align: baseline;
+            }
+            .logo:hover {
+                cursor: pointer;
+            }
+            .quickFindDiv {
+                display: inline-block;
+                line-height: 16px;
+                vertical-align: super;
+                padding-left: 180px;
+            }
+            .quickFind {
+                background: #282828;
+                border: none;
+                background-image: url("../images/searchicon.png");
+                background-size: 20px;
+                background-position: left;
+                background-repeat: no-repeat;
+                padding: 5px 5px 5px 25px;
+                outline: none;
+                color: white;
+                width: 350px;
+                box-sizing: border-box;
+            }
+            .quickFind:hover {
+                background-color: #404040;
+            }
+            #loading {
+                position: absolute;
+                margin: 0 auto;
+                top: 300px;
+                left: 850px;
+            }
+            .formElements{
+                padding: 1px 0;
+            }
+            input:hover{
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            }
+            input:focus{
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            }
+            .center {
+                text-align: center;
+                margin: 0 auto;
+            }
+            .fullForm {
+                border: 3px solid #808080;
+                border-radius: 3px;
+                padding: 30px;
+                color: white;
+                box-shadow: 0 5px 15px rgba(255,255,255,0.25), 0 0px 0px rgba(255,255,255,0.22);
+            }
+
+
+
+            /* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  /* The container */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: #de4c4a;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .redText {
+      color: red;
+      font-size: 12px;
+  }
