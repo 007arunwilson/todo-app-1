@@ -208,7 +208,32 @@ qfind.addEventListener("blur",function(){
     welcome.style.display="block";
 })
 
-    allTasks();
+allTasks();
+
+qfind.addEventListener('keyup',searchFilter);
+
+function searchFilter() {
+    // Declare variables
+    var input, filter, ul, li, a, i, txtValue,hr;
+    input = document.getElementById('qfind');
+    filter = input.value.toUpperCase();
+    ul = document.querySelector('ul');
+    li = document.getElementsByTagName('li');
+    hr = document.getElementsByTagName('hr');
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length-1; i++) {
+      a = document.querySelectorAll('.eachTaskName');
+      txtValue = a[i].textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+        hr[i].style.display ="";
+      } else {
+        li[i].style.display = "none";
+        hr[i].style.display = "none";
+      }
+    }
+  }
+
     // window.onpopstate=function(event) {
     //     if(JSON.stringify(event.state)!=null) {
     //         window.location.replace('http://127.0.0.1:5500/views/');
@@ -538,7 +563,7 @@ function listAllTasks(responseObj) {
     dateArray.forEach(function(date) {
         for(var key in responseObj) {
             var eachdate=new Date(responseObj[key].date);
-            if(eachdate.getTime()==date.getTime()) {
+            if(eachdate.getTime()==date.getTime() && keyArray.indexOf(key)==-1) {
                 keyArray.push(key);
             }
         }

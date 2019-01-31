@@ -37,6 +37,7 @@
                 background: #282828;
                 color: white;
                 box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
+                z-index: 100;
             }
             .innerHeader {
                 width:60%;
