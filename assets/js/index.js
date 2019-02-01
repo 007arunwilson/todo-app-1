@@ -449,12 +449,7 @@ function ajaxAddTask() {
     document.getElementById("loading").innerHTML = "";
   });
 
-  ajaxObj.setCallback(response => {
-    console.log(JSON.parse(response));
-    console.log(JSON.stringify(todoObj));
-    allTasks();
-  });
-  ajaxObj.executeCall();
+  ajaxObj.executeCall().then(() => allTasks());
   document.querySelector(".rightTasks").innerHTML = "";
 }
 
@@ -574,7 +569,7 @@ function allTasks() {
   ajaxObj.setURL(
     `https://to-do-list-b734d.firebaseio.com/todos.json?orderBy="firebaseid"&equalTo="${userKey}"`
   );
-  ajaxObj.setCallback(response => {
+  ajaxObj.executeCall().then((response) => {
     localStorage.setItem("tasks", response);
     responseObj = JSON.parse(response);
     console.log(responseObj);
@@ -587,7 +582,6 @@ function allTasks() {
       listAllTasks(responseObj);
     }
   });
-  ajaxObj.executeCall();
 }
 
 function addTaskDiv() {
@@ -695,7 +689,6 @@ function listAllTasks(responseObj) {
             event.target.id.split("k")[1]
           }.json`
         );
-        ajaxObj.setCallback(() => allTasks());
         ajaxObj.setLoadingFn(() => {
           document.querySelector(".rightTasks").innerHTML =
             '<div id="loading"><img src="../assets/images/loading.gif" alt="loading..." width=50></div>';
@@ -703,7 +696,7 @@ function listAllTasks(responseObj) {
         ajaxObj.setRemoveLoadingFn(() => {
           document.getElementById("loading").innerHTML = "";
         });
-        ajaxObj.executeCall();
+        ajaxObj.executeCall().then(() => allTasks());
       }
     });
   }
@@ -809,13 +802,7 @@ function listAllTasks(responseObj) {
         ajaxObj.setRemoveLoadingFn(() => {
           document.getElementById("loading").innerHTML = "";
         });
-
-        ajaxObj.setCallback(response => {
-          console.log(JSON.parse(response));
-          console.log(JSON.stringify(todoObj));
-          allTasks();
-        });
-        ajaxObj.executeCall();
+        ajaxObj.executeCall().then(() => allTasks());
         document.querySelector(".rightTasks").innerHTML = "";
       }
 
@@ -962,11 +949,8 @@ function signup() {
     ajaxObj.setRemoveLoadingFn(function() {
       document.getElementById("loading").innerHTML = "";
     });
-    ajaxObj.setCallback(function() {
-      loginPage();
-    });
     try {
-      ajaxObj.executeCall();
+      ajaxObj.executeCall().then(() => loginPage());
     } catch {
       alert("An error occured!");
     }

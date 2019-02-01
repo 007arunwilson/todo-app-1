@@ -3,7 +3,7 @@
 var ajaxWrapper = function(bodyData) {
   this.URL = null;
   this.method = "";
-  this.callBackFunction = null;
+//   this.callBackFunction = null;
   this.loadingFunction = null;
   this.removeLoadingFn = null;
   this.body = bodyData;
@@ -15,9 +15,9 @@ ajaxWrapper.prototype.setURL = function(URL) {
   this.URL = URL;
 };
 
-ajaxWrapper.prototype.setCallback = function(callbackFunction) {
-  this.callBackFunction = callbackFunction;
-};
+// ajaxWrapper.prototype.setCallback = function(callbackFunction) {
+//   this.callBackFunction = callbackFunction;
+// };
 
 ajaxWrapper.prototype.setLoadingFn = function(loadingFn) {
   this.loadingFunction = loadingFn;
@@ -40,8 +40,8 @@ ajaxWrapper.prototype.executeCall = function() {
         //document.getElementById('loading').innerHTML="";
         ajaxWrapperInst.removeLoadingFn();
         //ajaxWrapperInst.callBackFunction(this.response);
-        //resolve(this.response,23232);
-        reject(new Error("Error occured"));
+        resolve(this.response);
+        //reject(new Error("Error occured"));
         //console.log(ajaxWrapperInst);
         //console.log(this.response);
       } else {
