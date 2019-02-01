@@ -640,15 +640,15 @@ function listAllTasks(responseObj) {
     var taskdate = new Date(responseObj[task].date);
     taskName = responseObj[task].todo; //or use Object.keys(responseObj) which returns an array of keys and use foreach loop to get the taskName OR use Object.values(responseObj) to get the values as an array but you wont get the index/keys.
     var html =
-      '<li id="li' +
+      '<li id="li:' +
       task +
-      '"><label class="container" data-tooltip="Task Done?"><input type="checkbox" id="chk' +
+      '"><label class="container" data-tooltip="Task Done?"><input type="checkbox" id="chk:' +
       task +
-      '" checked="checked"><span class="checkmark" style="margin-top: 2px"></span></label><div class="eachTaskPos"><span style="margin-left:30px" id="taskName' +
+      '" checked="checked"><span class="checkmark" style="margin-top: 2px"></span></label><div class="eachTaskPos"><span style="margin-left:30px" id="taskName:' +
       task +
       '" class="eachTaskName" data-tooltip="Edit Task Name?">' +
       taskName +
-      '</span><span style="float:right" id="taskDate' +
+      '</span><span style="float:right" id="taskDate:' +
       task +
       '" class="eachTaskDate" data-tooltip="Edit Task Date?">' +
       responseObj[task].date +
@@ -659,15 +659,15 @@ function listAllTasks(responseObj) {
       date.getFullYear() > taskdate.getFullYear()
     ) {
       var html =
-        '<li id="li' +
+        '<li id="li:' +
         task +
-        '"><label class="container" data-tooltip="Task Done?"><input type="checkbox" id="chk' +
+        '"><label class="container" data-tooltip="Task Done?"><input type="checkbox" id="chk:' +
         task +
-        '" checked="checked"><span class="checkmark" style="margin-top: 2px"></span></label><div class="eachTaskPos"><span style="margin-left:30px" id="taskName' +
+        '" checked="checked"><span class="checkmark" style="margin-top: 2px"></span></label><div class="eachTaskPos"><span style="margin-left:30px" id="taskName:' +
         task +
         '" class="eachTaskName" data-tooltip="Edit Task Name?">' +
         taskName +
-        '</span><span style="font-size: 12px; color:red; padding-left:5px">Overdue</span><span style="float:right" id="taskDate' +
+        '</span><span style="font-size: 12px; color:red; padding-left:5px">Overdue</span><span style="float:right" id="taskDate+' +
         task +
         '" class="eachTaskDate" data-tooltip="Edit Task Date?">' +
         responseObj[task].date +
@@ -686,7 +686,7 @@ function listAllTasks(responseObj) {
         ajaxObj.setMethod("DELETE");
         ajaxObj.setURL(
           `https://to-do-list-b734d.firebaseio.com/todos/${
-            event.target.id.split("k")[1]
+            event.target.id.split(":")[1]
           }.json`
         );
         ajaxObj.setLoadingFn(() => {
@@ -704,7 +704,7 @@ function listAllTasks(responseObj) {
   var editTask = document.querySelectorAll(".eachTaskName,.eachTaskDate");
   for (var i = 0; i < editTask.length; i++) {
     editTask[i].addEventListener("click", function(event) {
-      var li = document.getElementById(`li${event.target.id.split("e")[1]}`);
+      var li = document.getElementById(`li:${event.target.id.split(":")[1]}`);
       li.innerHTML = "";
       var form = document.createElement("div");
       li.appendChild(form);
@@ -718,7 +718,7 @@ function listAllTasks(responseObj) {
         "placeholder",
         "e.g. Read every day p3 @goals #Learning"
       );
-      taskNameinp.setAttribute("id", `in${event.target.id.split("e")[1]}`);
+      taskNameinp.setAttribute("id", `in${event.target.id.split(":")[1]}`);
       // var dateinp=document.createElement('div');
       // div2.appendChild(dateinp);
       // dateinp.setAttribute('class','selectDate smallText floatLeft');
@@ -758,7 +758,7 @@ function listAllTasks(responseObj) {
       addTaskBottom.appendChild(submitButton);
       submitButton.setAttribute("type", "button");
       submitButton.setAttribute("class", "btn btn-primary btn-sm btn-danger");
-      submitButton.setAttribute("id", `btn${event.target.id.split("e")[1]}`);
+      submitButton.setAttribute("id", `btn${event.target.id.split(":")[1]}`);
       submitButton.textContent = "Save";
       var cancelButton = document.createElement("button");
       addTaskBottom.appendChild(cancelButton);
@@ -767,7 +767,7 @@ function listAllTasks(responseObj) {
       var taskBottomicons =
         '<div class="floatRight priority"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" data-svgs-path="sm1/priority_flag.svg"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><g fill="currentColor"><path d="M5 5.5L6 5v14.5a.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5v-14z"></path><path fill-rule="nonzero" d="M5 13.51V5.29l.26-.15c.17-.09.46-.21.88-.33 1.62-.47 3.65-.46 6.02.31a11.9 11.9 0 0 0 6.91.15l.21-.06.09-.02.1-.01c.18-.05.18-.05.51.5l.01 8.29-.32.12c-.2.08-.58.2-1.09.31a12.7 12.7 0 0 1-6.74-.33 9.2 9.2 0 0 0-5.43-.3 3.66 3.66 0 0 0-.67.25.5.5 0 0 1-.74-.47.5.5 0 0 1 0-.04zm1.14-.7a10.2 10.2 0 0 1 6.02.31 11.72 11.72 0 0 0 6.83.15V6.32a12.63 12.63 0 0 1-.47.11c-2.08.43-4.34.4-6.68-.36A9.2 9.2 0 0 0 6 5.91v6.94l.14-.04z"></path></g></g></svg></div><div class="floatRight reminders"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" data-svgs-path="sm1/reminder.svg"><path fill="currentColor" fill-rule="evenodd" d="M12 12h3.5a.5.5 0 1 1 0 1H11V9.5a.5.5 0 0 1 1 0V12zm4.58 6.29A6.97 6.97 0 0 1 12 20a6.97 6.97 0 0 1-4.58-1.71l-1.27 1.27a.5.5 0 0 1-.71-.7l1.27-1.28a7 7 0 1 1 10.58 0l1.27 1.27a.5.5 0 0 1-.7.71l-1.28-1.27zM12 19a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM5.04 9.02l-.71.7-.42-.41a2.5 2.5 0 0 1 0-3.55l.7-.7a2.5 2.5 0 0 1 3.55 0l.36.37-.7.7-.37-.36a1.5 1.5 0 0 0-2.13 0l-.7.7a1.5 1.5 0 0 0 0 2.13l.42.42zm14.63.7l-.7-.7.41-.42a1.5 1.5 0 0 0 0-2.13l-.7-.7a1.5 1.5 0 0 0-2.13 0l-.36.37-.7-.71.36-.37a2.5 2.5 0 0 1 3.54 0l.7.7a2.5 2.5 0 0 1 0 3.55l-.42.41z"></path></svg></div><div class="floatRight project"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" data-svgs-path="sm1/project.svg"><path fill="currentColor" fill-rule="evenodd" d="M6 8a1 1 0 0 0-1 1v8c0 .5.5 1 1 1h12a1 1 0 0 0 1-1V9c0-.5-.5-1-1-1H6zM4 7c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zm3 4h10v1H7v-1zm0 3h10v1H7v-1z"></path></svg></div><div class="clear"></div>';
       addTaskBottom.insertAdjacentHTML("beforeend", taskBottomicons);
-      taskNameinp.value = responseObj[event.target.id.split("e")[1]].todo;
+      taskNameinp.value = responseObj[event.target.id.split(":")[1]].todo;
       taskNameinp.focus();
       submitButton.addEventListener("click", ajaxEditTask);
       taskNameinp.addEventListener("keyup", function(event) {
@@ -782,7 +782,7 @@ function listAllTasks(responseObj) {
         ).firebaseid;
         var newTaskName = document.querySelector(".addTaskName").value;
         if (newTaskName == "") {
-          todoObj.todo = responseObj[event.target.id.split("n")[1]].todo;
+          todoObj.todo = responseObj[event.target.id.split(":")[1]].todo;
         } else {
           todoObj.todo = document.querySelector(".addTaskName").value;
         }
@@ -791,7 +791,7 @@ function listAllTasks(responseObj) {
         ajaxObj.setMethod("PATCH");
         ajaxObj.setURL(
           "https://to-do-list-b734d.firebaseio.com/todos/" +
-            event.target.id.split("n")[1] +
+            event.target.id.split(":")[1] +
             ".json"
         );
 
@@ -846,11 +846,7 @@ function login() {
     var email = formElements[0].value;
     var ajaxObj = new ajaxWrapper();
     ajaxObj.setMethod("GET");
-    ajaxObj.setURL(
-      'https://to-do-list-b734d.firebaseio.com/users.json?orderBy="email"&equalTo="' +
-        email +
-        '"'
-    );
+    ajaxObj.setURL('https://to-do-list-b734d.firebaseio.com/users.json?orderBy="email"&equalTo="' +email +'"');
     ajaxObj.setLoadingFn(function() {
       document.getElementById("bodyWrapper").innerHTML =
         '<div id="loading"><img src="../assets/images/loading.gif" alt="loading..." width=50></div>';
