@@ -127,6 +127,12 @@ function loginPage() {
 var chkbox=document.querySelector("input[type=checkbox]")
 if(chkbox!=null) {chkbox.checked=false;}
 
+var formElements=document.querySelectorAll('.form-control');
+for(var i=0;i<formElements.length;i++) {
+ formElements[i].addEventListener('keyup',function() {
+    validateLogin(formElements,true);
+ });
+}
 // window.onpopstate=function(event) {
 //     if(JSON.stringify(event.state)!=null) {
 //         window.location.replace('http://127.0.0.1:5500/views/');
@@ -358,6 +364,17 @@ function signupPage() {
     history.pushState('Login',null,'Login');
     loginPage();
 })
+var formElements=document.querySelectorAll('.form-control');
+    name.addEventListener('keyup',function() {
+        validateSignUp(formElements,'name');
+    })
+    email.addEventListener('keyup',function() {
+        validateSignUp(formElements,'email');
+    })
+    cnfpassword.addEventListener('keyup',function() {
+        validateSignUp(formElements,'cnfpass');
+    })
+
 
 
     var chkbox=document.querySelector("input[type=checkbox]")
@@ -645,7 +662,6 @@ function listAllTasks(responseObj) {
             addTaskBottom.insertAdjacentHTML("beforeend",taskBottomicons);
             taskNameinp.value=responseObj[event.target.id.split('e')[1]].todo;
             taskNameinp.focus();
-
             submitButton.addEventListener('click', ajaxEditTask);
             taskNameinp.addEventListener('keyup',function(event){
                 if(event.which==13) {
@@ -723,7 +739,7 @@ function emptyList() {
 
 function login() {
     var formElements=document.querySelectorAll('.form-control');
-    if(validateLogin(formElements)) {
+    if(validateLogin(formElements,false)) {
         var email = formElements[0].value;
         var ajaxObj=new ajaxWrapper();
         ajaxObj.setMethod("GET");
@@ -767,7 +783,7 @@ function login() {
     }
 }
 
-function validateLogin(formElements) {
+function validateLogin(formElements,keyup) {
     var redText=document.querySelectorAll(".redText");
     var flag=true;
     for(var i=0;i<2;i++) {
@@ -776,13 +792,18 @@ function validateLogin(formElements) {
     if(!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(formElements[0].value.trim())) {
         redText[0].textContent="Enter a valid Email.";
         flag=false;
+        if(keyup==true) {
+            return;
+        }
     }
+    if(keyup==false) {
     for(var i=0;i<2;i++) {
         if(formElements[i].value=="") {
             redText[i].textContent="(*)This field is Mandatory.";
             flag=false;
         }
     }
+  }
     return flag;
 }
 
@@ -792,7 +813,7 @@ function validateLogin(formElements) {
 
 function signup() {
     var formElements=document.querySelectorAll('.form-control');
-    if(validateSignUp(formElements)) {
+    if(validateSignUp(formElements,'none')) {
         var formObj={};
         var email = formElements[1].value;
         formObj.name=formElements[0].value;
@@ -819,25 +840,26 @@ function signup() {
     }
 }
 
-function validateSignUp(formElements) {
+function validateSignUp(formElements,keyup) {
     var redText=document.querySelectorAll(".redText");
     var chkbox=document.querySelector("input[type=checkbox]");
     var flag=true;
     for(var i=0;i<4;i++) {
             redText[i].textContent="";
     }
-    if(!/^[A-Za-z\s]+$/.test(formElements[0].value.trim())) {
+    if(!/^[A-Za-z\s]+$/.test(formElements[0].value.trim()) && (keyup=='name' || keyup== 'none')) {
         redText[0].textContent="Name should only contain alphabets.";
         flag=false;
     }
-    if(!/\S+@\S+\.\S+/.test(formElements[1].value.trim())) {
+    if(!/\S+@\S+\.\S+/.test(formElements[1].value.trim()) && (keyup=='email' || keyup== 'none')) {
         redText[1].textContent="Enter a valid Email.";
         flag=false;
     }
-    if(formElements[2].value.trim()!=formElements[3].value.trim()) {
+    if(formElements[2].value.trim()!=formElements[3].value.trim() && (keyup=='cnfpass' || keyup== 'none')) {
         redText[3].textContent="Passwords don't match.";
         flag=false;    
     }
+    if(keyup=='none') {
     if(chkbox.checked==false) {
         redText[3].textContent="Please accept the Terms and Conditions."; 
         flag=false;
@@ -848,5 +870,6 @@ function validateSignUp(formElements) {
             flag=false;
         }
     }
+  }
     return flag;
 }
