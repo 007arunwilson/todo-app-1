@@ -12,7 +12,7 @@ var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 window.addEventListener('popstate', function(event) {
     console.log(event);
     if(JSON.stringify(event.state)==null) {
-        window.location.replace('http://127.0.0.1:5500/views/');
+        userLogged();
     }
     else if(JSON.stringify(event.state) !== null) {
         // history.back();
@@ -33,6 +33,12 @@ window.addEventListener('popstate', function(event) {
         else if(event.state=='Home'&&localStorage.getItem('user')!=null) {
             history.replaceState('Home',null,'Home');
             todoListPage();
+        }
+        else if(event.state=='Login'&&localStorage.getItem('user')!=null) {
+            history.replaceState('Home', null, 'Home');
+        }
+        else if(event.state=='Home'&&localStorage.getItem('user')==null) {
+            history.replaceState('Login', null, 'Login');
         }
     }
 }, false);
@@ -586,8 +592,12 @@ function listAllTasks(responseObj) {
         }
     })
     keyArray.forEach(function(task) {
+        var taskdate=new Date(responseObj[task].date);
         taskName=responseObj[task].todo;    //or use Object.keys(responseObj) which returns an array of keys and use foreach loop to get the taskName OR use Object.values(responseObj) to get the values as an array but you wont get the index/keys.
         var html='<li id="li'+task+'"><label class="container" data-tooltip="Task Done?"><input type="checkbox" id="chk'+task+'" checked="checked"><span class="checkmark" style="margin-top: 2px"></span></label><div class="eachTaskPos"><span style="margin-left:30px" id="taskName'+task+'" class="eachTaskName" data-tooltip="Edit Task Name?">'+taskName+'</span><span style="float:right" id="taskDate'+task+'" class="eachTaskDate" data-tooltip="Edit Task Date?">'+responseObj[task].date+'</span><span class="clear"></span><div></li><hr>';
+        if(date.getDay()>taskdate.getDay()&&date.getMonth()>taskdate.getMonth()||date.getFullYear()>taskdate.getFullYear()) {
+            var html='<li id="li'+task+'"><label class="container" data-tooltip="Task Done?"><input type="checkbox" id="chk'+task+'" checked="checked"><span class="checkmark" style="margin-top: 2px"></span></label><div class="eachTaskPos"><span style="margin-left:30px" id="taskName'+task+'" class="eachTaskName" data-tooltip="Edit Task Name?">'+taskName+'</span><span style="font-size: 12px; color:red; padding-left:5px">Overdue</span><span style="float:right" id="taskDate'+task+'" class="eachTaskDate" data-tooltip="Edit Task Date?">'+responseObj[task].date+'</span><span class="clear"></span><div></li><hr>';
+        }
         document.getElementsByTagName('ul')[0].insertAdjacentHTML('afterbegin',html);
     });
     var eachTask=document.querySelectorAll("input[type=checkbox]");
@@ -598,9 +608,7 @@ function listAllTasks(responseObj) {
                 var ajaxObj=new ajaxWrapper();
                 ajaxObj.setMethod("DELETE");
                 ajaxObj.setURL(`https://to-do-list-b734d.firebaseio.com/todos/${event.target.id.split('k')[1]}.json`);
-                ajaxObj.setCallback(() => {
-                    allTasks();
-                })
+                ajaxObj.setCallback(() => allTasks());
                 ajaxObj.setLoadingFn(() => {
                     document.querySelector('.rightTasks').innerHTML='<div id="loading"><img src="../assets/images/loading.gif" alt="loading..." width=50></div>';
                 });
@@ -766,12 +774,15 @@ function login() {
                         todoListPage();
                     }
                     else {
-                        alert('password incorrect');
+                        loginPage();
+                        document.querySelectorAll('.redText')[1].textContent="Email or Password Is Incorrect";
+
                     }
             }
         }
         if(!flag) {
-            alert('user doesnt exist');
+            loginPage();
+            document.querySelectorAll('.redText')[1].textContent="Email or Password Is Incorrect";
         }
         })
         try {
