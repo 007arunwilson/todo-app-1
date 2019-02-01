@@ -1,3 +1,7 @@
+/* Ajax Wrapper With Promise implementation */
+
+
+
 var ajaxWrapper = function(bodyData){
     this.URL = null;
     this.method = "";
