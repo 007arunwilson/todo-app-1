@@ -243,7 +243,7 @@ function todoListPage() {
   qfind.addEventListener("blur", function() {
     qfind.style.width = "350px";
     qfind.style.border = "none";
-    welcome.style.display = "block";
+    setTimeout(function() {welcome.style.display = "block" },500);
   });
 
   allTasks();
@@ -638,6 +638,11 @@ function listAllTasks(responseObj) {
   });
   keyArray.forEach(function(task) {
     var taskdate = new Date(responseObj[task].date);
+    Date.prototype.withoutTime = function () {
+        var d = new Date(this);
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }
     taskName = responseObj[task].todo; //or use Object.keys(responseObj) which returns an array of keys and use foreach loop to get the taskName OR use Object.values(responseObj) to get the values as an array but you wont get the index/keys.
     var html =
       '<li id="li:' +
@@ -654,9 +659,7 @@ function listAllTasks(responseObj) {
       responseObj[task].date +
       '</span><span class="clear"></span><div></li><hr>';
     if (
-      (date.getDay() > taskdate.getDay() &&
-        date.getMonth() > taskdate.getMonth()) ||
-      date.getFullYear() > taskdate.getFullYear()
+        new Date().withoutTime() > taskdate.withoutTime()
     ) {
       var html =
         '<li id="li:' +
@@ -668,6 +671,24 @@ function listAllTasks(responseObj) {
         '" class="eachTaskName" data-tooltip="Edit Task Name?">' +
         taskName +
         '</span><span style="font-size: 12px; color:red; padding-left:5px">Overdue</span><span style="float:right" id="taskDate+' +
+        task +
+        '" class="eachTaskDate" data-tooltip="Edit Task Date?">' +
+        responseObj[task].date +
+        '</span><span class="clear"></span><div></li><hr>';
+    }
+    else if( 
+        new Date().withoutTime() < taskdate.withoutTime()
+    ) {
+        var html =
+        '<li id="li:' +
+        task +
+        '"><label class="container" data-tooltip="Task Done?"><input type="checkbox" id="chk:' +
+        task +
+        '" checked="checked"><span class="checkmark" style="margin-top: 2px"></span></label><div class="eachTaskPos"><span style="margin-left:30px" id="taskName:' +
+        task +
+        '" class="eachTaskName" data-tooltip="Edit Task Name?">' +
+        taskName +
+        '</span><span style="font-size: 12px; color:green; padding-left:5px">Upcoming</span><span style="float:right" id="taskDate+' +
         task +
         '" class="eachTaskDate" data-tooltip="Edit Task Date?">' +
         responseObj[task].date +
@@ -690,8 +711,10 @@ function listAllTasks(responseObj) {
           }.json`
         );
         ajaxObj.setLoadingFn(() => {
+        setTimeOut(function() {
           document.querySelector(".rightTasks").innerHTML =
             '<div id="loading"><img src="../assets/images/loading.gif" alt="loading..." width=50></div>';
+        },200);
         });
         ajaxObj.setRemoveLoadingFn(() => {
           document.getElementById("loading").innerHTML = "";
@@ -718,7 +741,7 @@ function listAllTasks(responseObj) {
         "placeholder",
         "e.g. Read every day p3 @goals #Learning"
       );
-      taskNameinp.setAttribute("id", `in${event.target.id.split(":")[1]}`);
+      taskNameinp.setAttribute("id", `in:${event.target.id.split(":")[1]}`);
       // var dateinp=document.createElement('div');
       // div2.appendChild(dateinp);
       // dateinp.setAttribute('class','selectDate smallText floatLeft');
@@ -758,7 +781,7 @@ function listAllTasks(responseObj) {
       addTaskBottom.appendChild(submitButton);
       submitButton.setAttribute("type", "button");
       submitButton.setAttribute("class", "btn btn-primary btn-sm btn-danger");
-      submitButton.setAttribute("id", `btn${event.target.id.split(":")[1]}`);
+      submitButton.setAttribute("id", `btn:${event.target.id.split(":")[1]}`);
       submitButton.textContent = "Save";
       var cancelButton = document.createElement("button");
       addTaskBottom.appendChild(cancelButton);

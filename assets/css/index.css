@@ -194,6 +194,12 @@
                 color: white;
                 width: 350px;
                 box-sizing: border-box;
+                -webkit-transition-property: width; /* Safari */
+                -webkit-transition-duration: 5s; /* Safari */
+                -webkit-transition-delay: 2s; /* Safari */
+                transition-property: width;
+                transition-duration: 1s;
+                transition-delay: 0.05s;
             }
             .quickFind:hover {
                 background-color: #404040;
@@ -249,6 +255,12 @@
   /* When the checkbox is checked, add a blue background */
   .container input:checked ~ .checkmark {
     background-color: #de4c4a;
+    -webkit-transition-property: width; /* Safari */
+                -webkit-transition-duration: 5s; /* Safari */
+                -webkit-transition-delay: 2s; /* Safari */
+                transition-property: width;
+                transition-duration: 0.3s;
+                transition-delay: 0.05s;
   }
   
   /* Create the checkmark/indicator (hidden when not checked) */
